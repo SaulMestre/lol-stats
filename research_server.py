@@ -239,6 +239,9 @@ class Handler(BaseHTTPRequestHandler):
         elif path=="/bronze/report":
             from bronze_cohort import public_report
             payload=public_report()
+        elif path=="/bronze/export":
+            from bronze_cohort import public_export
+            payload=public_export()
         elif path=="/status":
             with LOCK:payload=dict(STATE)
         elif path=="/report":
