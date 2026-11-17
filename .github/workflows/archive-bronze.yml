@@ -6,7 +6,7 @@ on:
       - ".github/workflows/archive-bronze.yml"
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '3-58/5 * * * *'
 
 permissions:
   contents: write
@@ -40,4 +40,4 @@ jobs:
           git commit -m "data: archive Bronze SoloQ matches [skip ci]"
           git push
 
-# First populated export verification
+# Snapshot check and five-minute heartbeat (best effort)
