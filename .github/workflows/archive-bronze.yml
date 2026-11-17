@@ -1,0 +1,38 @@
+name: Archive Bronze EUW match JSON
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bronze-data-archive
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Fetch latest research snapshot and merge JSON shards
+        env:
+          COHORT_EXPORT_URL: https://lol-stats-pre.onrender.com/bronze/export
+        run: |
+          python3 scripts/sync_bronze.py
+      - name: Commit only changed data
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/bronze/
+          if git diff --cached --quiet; then
+            echo 'No new match data'
+            exit 0
+          fi
+          git commit -m "data: archive Bronze SoloQ matches [skip ci]"
+          git push
