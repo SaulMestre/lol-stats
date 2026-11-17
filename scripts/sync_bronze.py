@@ -50,7 +50,7 @@ def sanitized(row: dict) -> dict:
         raise ValueError("Unrecognized EUW match ID")
     if result.get("teamId") not in (100, 200) or not isinstance(result.get("win"), bool):
         raise ValueError(f"Malformed winner/team for {mid}")
-    if any(k in json.dumps(result).lower() for k in ("RGAPI-", "X-Riot-Token")):
+    if any(k in json.dumps(result).lower() for k in ("rgapi-", "x-riot-token", "puuid")):
         raise ValueError("Unexpected sensitive data in export")
     timeline = result.get("timelineData")
     if timeline is not None:
