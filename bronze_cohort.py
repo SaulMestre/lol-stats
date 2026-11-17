@@ -69,6 +69,29 @@ def extract(match,timeline):
         for e in f.get("events",[]):
             if e.get("type")=="CHAMPION_KILL" and e.get("victimId"):
                 death_times[e["victimId"]].append(e.get("timestamp",f.get("timestamp",0)))
+    # Anonymous minute-level positions and economy: no PUUID / summoner names.
+    slim={"schema":1,"startMs":info.get("gameStartTimestamp"),
+          "durationSec":info.get("gameDuration"),
+          "participants":[{"pid":p["participantId"],"team":p["teamId"],
+                           "role":p.get("teamPosition"),"champion":p.get("championName")}
+                          for p in participants],
+          "frames":[],"events":[]}
+    for frame in frames:
+        t=frame.get("timestamp",0)
+        if 10*60000<=t<=32*60000:
+            compact={}
+            for p in participants:
+                pf=frame.get("participantFrames",{}).get(str(p["participantId"]),{})
+                xy=pf.get("position") or {}
+                compact[str(p["participantId"])]=[
+                    xy.get("x"),xy.get("y"),pf.get("totalGold"),pf.get("xp"),
+                    pf.get("minionsKilled"),pf.get("jungleMinionsKilled"),
+                    pf.get("level")]
+            slim["frames"].append({"t":t,"p":compact})
+        for event in frame.get("events",[]):
+            if event.get("type")=="CHAMPION_KILL" and 10*60000<=event.get("timestamp",0)<=32*60000:
+                slim["events"].append({"t":event.get("timestamp"),"victim":event.get("victimId"),
+                    "killer":event.get("killerId"),"p":event.get("position")})
     rows=[]
     for team_id in (100,200):
         players=[p for p in participants if p["teamId"]==team_id]
@@ -123,7 +146,8 @@ def extract(match,timeline):
             "fedGoldLead15":fed_lead,"fedIsRichest":fed["participantId"]==richest["participantId"],
             "fedFrames":len(valid_fed),
             "fedAnyNear":round(sum(q[1] for q in valid_fed)/len(valid_fed),4) if valid_fed else None,
-            "fedAlliesMean":round(sum(q[0] for q in valid_fed)/len(valid_fed),4) if valid_fed else None
+            "fedAlliesMean":round(sum(q[0] for q in valid_fed)/len(valid_fed),4) if valid_fed else None,
+            "timelineData":slim if team_id==100 else None
         })
     return rows if len(rows)==2 else []
 
@@ -192,6 +216,12 @@ def result(rows):
         "meanFramesPerTeam":round(sum(r["adcFrames"] for r in rows)/len(rows),2)
     }
 
+def public_export():
+    with LOCK:
+        return {"schemaVersion":1,"queueId":420,"region":"EUW",
+                "status":dict(STATUS),"rows":list(ROWS)}
+
+
 def public_status():
     with LOCK:return dict(STATUS)
 
@@ -207,9 +237,23 @@ def public_report():
 def persist():
     with LOCK:
         data={"state":dict(STATUS),"rows":list(ROWS)}
-    DATA.write_text(json.dumps(data,ensure_ascii=False))
+    tmp=DATA.with_suffix(".tmp")
+    tmp.write_text(json.dumps(data,ensure_ascii=False))
+    tmp.replace(DATA)
 
 def collect():
+    if DATA.exists():
+        try:
+            existing=json.loads(DATA.read_text())
+            saved=existing.get("rows",[])
+            if isinstance(saved,list):
+                with LOCK:
+                    ROWS.extend(saved)
+                    SEEN.update(r["matchId"] for r in saved if r.get("matchId"))
+                    STATUS["matches"]=len(SEEN)
+                print("Bronze checkpoint restored",len(SEEN),flush=True)
+        except (ValueError,OSError,KeyError,TypeError):
+            print("Bronze checkpoint restore unavailable",flush=True)
     with LOCK:STATUS.update(phase="selecting_bronze_players",started=int(time.time()))
     try:
         seeds=[]
