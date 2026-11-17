@@ -65,3 +65,30 @@ Live endpoints:
 Controls: `RESEARCH_MODE=bronze`, `BRONZE_MATCH_COUNT` (sample size), `BRONZE_SEED_COUNT` (number of potential ranked seeds). Logs every ten validated matches.
 
 **Observational study:** statistics do not prove that proximity causes winning. Winners may group because they already have map control. The unit of analysis for significance is the match, not each minute frame or each team independently. The timeline is only an approximately minute-spaced series. All write outputs use Render's ephemeral `/tmp` storage.
+
+## Durable GitHub JSON archive
+
+The running Render app publishes compact, anonymous position frames, economy frames,
+and kill locations at \`/bronze/export\` (JSON). It includes both team rows for
+each unique Ranked Solo/Duo match, plus a compact map sample (minutes 10–32)
+on one row per match. There are no PUUIDs, Riot IDs, names or Riot API tokens.
+
+A scheduled GitHub Actions workflow \`.github/workflows/archive-bronze.yml\`
+runs every five minutes (schedule frequency is best-effort). It executes
+\`scripts/sync_bronze.py\`, merges records by \`matchId:teamId\`, and saves
+stable JSON shards under \`data/bronze/matches-XX.json\`. A small manifest at
+\`data/bronze/manifest.json\` tracks unique match counts. An unchanged snapshot
+makes no commit. Render restores archived records from the GitHub repository
+on process start, allowing the study to resume rather than discard accumulated
+datasets during redeploys.
+
+The built-in GitHub Actions \`GITHUB_TOKEN\` writes the data. **No personal access
+token and no Riot key are stored in the repository**. Repo Actions permissions
+must allow write access to repository contents; if organization policies block
+that, a run will fail and must be enabled by the repo owner. The repository is
+public; do not store raw private identifiers or API secrets here.
+
+Because JSON is stored as structured summaries rather than Riot's complete
+Match and Timeline payloads, 500–1,000 matches should remain manageable in Git.
+Use external object storage if expanding to tens or hundreds of thousands of
+raw timelines.
