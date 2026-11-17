@@ -1,0 +1,1335 @@
+{
+  "schemaVersion": 1,
+  "question": "Does staying near the largest gold-advantaged teammate at minute 15 correlate with winning or prevent a throw?",
+  "sample": {
+    "archivedMatches": 335,
+    "twoTeamsPerMatch": 670,
+    "teamsWithFedLeader": 519,
+    "gamesBothTeamsHaveFedLeader": 188,
+    "archiveShards": 32
+  },
+  "definitions": {
+    "rank": "Bronze III seed, not all other lobby ranks verified",
+    "queueId": 420,
+    "fedSelection": "team member with largest gold difference vs opposite role, at minute 15; ahead by >=750 gold",
+    "proximity": "at least one other teammate within <=2500 map units; snapshot frequency ~1 minute",
+    "time": "minutes 15 inclusive to 25 exclusive",
+    "lowPresence": "<40% of valid snapshots",
+    "mediumPresence": "40-60% of valid snapshots",
+    "highPresence": ">=60% of valid snapshots",
+    "outcome": "team wins the match, NOT whether fed player remains fed"
+  },
+  "main": {
+    "winRatesByPresence": {
+      "low": {
+        "teams": 95,
+        "wins": 48,
+        "winRate": 0.5053,
+        "meanTeamGold15": 984,
+        "meanFedLead15": 1993,
+        "meanNearbyTeammates": 0.48,
+        "roleCounts": {
+          "TOP": 56,
+          "JUNGLE": 7,
+          "MIDDLE": 25,
+          "BOTTOM": 7,
+          "UTILITY": 0
+        }
+      },
+      "medium": {
+        "teams": 144,
+        "wins": 91,
+        "winRate": 0.6319,
+        "meanTeamGold15": 1267,
+        "meanFedLead15": 2063,
+        "meanNearbyTeammates": 0.919,
+        "roleCounts": {
+          "TOP": 54,
+          "JUNGLE": 25,
+          "MIDDLE": 44,
+          "BOTTOM": 16,
+          "UTILITY": 5
+        }
+      },
+      "high": {
+        "teams": 280,
+        "wins": 165,
+        "winRate": 0.5893,
+        "meanTeamGold15": 1185,
+        "meanFedLead15": 2002,
+        "meanNearbyTeammates": 1.4,
+        "roleCounts": {
+          "TOP": 25,
+          "JUNGLE": 60,
+          "MIDDLE": 56,
+          "BOTTOM": 108,
+          "UTILITY": 31
+        }
+      }
+    },
+    "highMinusLowClusterBootstrap": {
+      "highMinusLowWinRate": 0.084,
+      "bootstrapped95pctCI": [
+        -0.0286,
+        0.203
+      ],
+      "resamplingUnit": "match"
+    },
+    "bothFedSameMatch": {
+      "matchedGames": 188,
+      "winnerMoreAccompanied": 99,
+      "loserMoreAccompanied": 81,
+      "equalPresence": 8,
+      "winnerShareAmongNonTies": 0.55,
+      "twoSidedExactSignP": 0.20499,
+      "meanWinnerMinusLoserPresence": 0.0174,
+      "pairedBootstrap95pctCI": [
+        -0.0345,
+        0.0673
+      ]
+    },
+    "pairedMeanNumberOfNearbyAllies": {
+      "matchedGames": 188,
+      "winnerMoreAccompanied": 90,
+      "loserMoreAccompanied": 91,
+      "equalPresence": 7,
+      "winnerShareAmongNonTies": 0.4972,
+      "twoSidedExactSignP": 1.0,
+      "meanWinnerMinusLoserPresence": -0.0261,
+      "pairedBootstrap95pctCI": [
+        -0.1198,
+        0.0641
+      ]
+    },
+    "pairedAdjustedDirectionalLogit": {
+      "nMatchedGames": 188,
+      "units": {
+        "accompaniment": "10 percentage point difference in fraction of midgame snapshots with at least one ally near",
+        "teamGold": "1000 gold more team advantage at minute 15",
+        "fedLead": "1000 gold more lead over opposing same-role player at minute 15"
+      },
+      "proximity_only": {
+        "proximityPer10pp": {
+          "beta": 0.0278,
+          "se": 0.04129,
+          "oddsRatio": 1.0282,
+          "OR95pctCI": [
+            0.9483,
+            1.1149
+          ],
+          "waldP": 0.50073
+        }
+      },
+      "plus_team_gold": {
+        "proximityPer10pp": {
+          "beta": 0.03983,
+          "se": 0.04352,
+          "oddsRatio": 1.0406,
+          "OR95pctCI": [
+            0.9555,
+            1.1333
+          ],
+          "waldP": 0.36014
+        },
+        "teamGoldPer1000": {
+          "beta": 0.30418,
+          "se": 0.0719,
+          "oddsRatio": 1.3555,
+          "OR95pctCI": [
+            1.1773,
+            1.5607
+          ],
+          "waldP": 2e-05
+        }
+      },
+      "plus_team_gold_and_fed_lead": {
+        "proximityPer10pp": {
+          "beta": 0.03759,
+          "se": 0.04388,
+          "oddsRatio": 1.0383,
+          "OR95pctCI": [
+            0.9527,
+            1.1316
+          ],
+          "waldP": 0.39164
+        },
+        "teamGoldPer1000": {
+          "beta": 0.3323,
+          "se": 0.10282,
+          "oddsRatio": 1.3942,
+          "OR95pctCI": [
+            1.1397,
+            1.7055
+          ],
+          "waldP": 0.00123
+        },
+        "fedLeadPer1000": {
+          "beta": -0.07379,
+          "se": 0.19084,
+          "oddsRatio": 0.9289,
+          "OR95pctCI": [
+            0.639,
+            1.3502
+          ],
+          "waldP": 0.69903
+        }
+      }
+    }
+  },
+  "byRole": {
+    "TOP": {
+      "teams": 135,
+      "table": {
+        "low": {
+          "teams": 56,
+          "wins": 26,
+          "winRate": 0.4643,
+          "meanTeamGold15": 636,
+          "meanFedLead15": 2037,
+          "meanNearbyTeammates": 0.486,
+          "roleCounts": {
+            "TOP": 56,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 54,
+          "wins": 31,
+          "winRate": 0.5741,
+          "meanTeamGold15": 1610,
+          "meanFedLead15": 2318,
+          "meanNearbyTeammates": 0.965,
+          "roleCounts": {
+            "TOP": 54,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        },
+        "high": {
+          "teams": 25,
+          "wins": 15,
+          "winRate": 0.6,
+          "meanTeamGold15": 898,
+          "meanFedLead15": 2361,
+          "meanNearbyTeammates": 1.283,
+          "roleCounts": {
+            "TOP": 25,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        }
+      }
+    },
+    "JUNGLE": {
+      "teams": 92,
+      "table": {
+        "low": {
+          "teams": 7,
+          "wins": 5,
+          "winRate": 0.7143,
+          "meanTeamGold15": 2481,
+          "meanFedLead15": 1882,
+          "meanNearbyTeammates": 0.422,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 7,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 25,
+          "wins": 15,
+          "winRate": 0.6,
+          "meanTeamGold15": 524,
+          "meanFedLead15": 1739,
+          "meanNearbyTeammates": 0.939,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 25,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        },
+        "high": {
+          "teams": 60,
+          "wins": 38,
+          "winRate": 0.6333,
+          "meanTeamGold15": 822,
+          "meanFedLead15": 1828,
+          "meanNearbyTeammates": 1.383,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 60,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        }
+      }
+    },
+    "MIDDLE": {
+      "teams": 125,
+      "table": {
+        "low": {
+          "teams": 25,
+          "wins": 12,
+          "winRate": 0.48,
+          "meanTeamGold15": 1330,
+          "meanFedLead15": 2017,
+          "meanNearbyTeammates": 0.515,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 25,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 44,
+          "wins": 32,
+          "winRate": 0.7273,
+          "meanTeamGold15": 1354,
+          "meanFedLead15": 2043,
+          "meanNearbyTeammates": 0.889,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 44,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        },
+        "high": {
+          "teams": 56,
+          "wins": 27,
+          "winRate": 0.4821,
+          "meanTeamGold15": 785,
+          "meanFedLead15": 2027,
+          "meanNearbyTeammates": 1.422,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 56,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        }
+      }
+    },
+    "BOTTOM": {
+      "teams": 131,
+      "table": {
+        "low": {
+          "teams": 7,
+          "wins": 5,
+          "winRate": 0.7143,
+          "meanTeamGold15": 1031,
+          "meanFedLead15": 1669,
+          "meanNearbyTeammates": 0.375,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 7,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 16,
+          "wins": 12,
+          "winRate": 0.75,
+          "meanTeamGold15": 1457,
+          "meanFedLead15": 1937,
+          "meanNearbyTeammates": 0.866,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 16,
+            "UTILITY": 0
+          }
+        },
+        "high": {
+          "teams": 108,
+          "wins": 70,
+          "winRate": 0.6481,
+          "meanTeamGold15": 1902,
+          "meanFedLead15": 2153,
+          "meanNearbyTeammates": 1.427,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 108,
+            "UTILITY": 0
+          }
+        }
+      }
+    },
+    "UTILITY": {
+      "teams": 36,
+      "table": {
+        "low": {
+          "teams": 0,
+          "wins": 0,
+          "winRate": null,
+          "meanTeamGold15": null,
+          "meanFedLead15": null,
+          "meanNearbyTeammates": null,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 5,
+          "wins": 1,
+          "winRate": 0.2,
+          "meanTeamGold15": -99,
+          "meanFedLead15": 1520,
+          "meanNearbyTeammates": 0.761,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 5
+          }
+        },
+        "high": {
+          "teams": 31,
+          "wins": 15,
+          "winRate": 0.4839,
+          "meanTeamGold15": 346,
+          "meanFedLead15": 1480,
+          "meanNearbyTeammates": 1.392,
+          "roleCounts": {
+            "TOP": 0,
+            "JUNGLE": 0,
+            "MIDDLE": 0,
+            "BOTTOM": 0,
+            "UTILITY": 31
+          }
+        }
+      }
+    }
+  },
+  "stratified": {
+    "teamBehindMoreThan1000": {
+      "nTeams": 119,
+      "presence": {
+        "low": {
+          "teams": 23,
+          "wins": 5,
+          "winRate": 0.2174,
+          "meanTeamGold15": -2712,
+          "meanFedLead15": 1444,
+          "meanNearbyTeammates": 0.428,
+          "roleCounts": {
+            "TOP": 17,
+            "JUNGLE": 0,
+            "MIDDLE": 4,
+            "BOTTOM": 2,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 28,
+          "wins": 11,
+          "winRate": 0.3929,
+          "meanTeamGold15": -2940,
+          "meanFedLead15": 1579,
+          "meanNearbyTeammates": 0.948,
+          "roleCounts": {
+            "TOP": 10,
+            "JUNGLE": 6,
+            "MIDDLE": 9,
+            "BOTTOM": 2,
+            "UTILITY": 1
+          }
+        },
+        "high": {
+          "teams": 68,
+          "wins": 22,
+          "winRate": 0.3235,
+          "meanTeamGold15": -2619,
+          "meanFedLead15": 1403,
+          "meanNearbyTeammates": 1.462,
+          "roleCounts": {
+            "TOP": 5,
+            "JUNGLE": 18,
+            "MIDDLE": 17,
+            "BOTTOM": 20,
+            "UTILITY": 8
+          }
+        }
+      }
+    },
+    "teamWithin1000": {
+      "nTeams": 145,
+      "presence": {
+        "low": {
+          "teams": 27,
+          "wins": 10,
+          "winRate": 0.3704,
+          "meanTeamGold15": 88,
+          "meanFedLead15": 1872,
+          "meanNearbyTeammates": 0.476,
+          "roleCounts": {
+            "TOP": 17,
+            "JUNGLE": 1,
+            "MIDDLE": 8,
+            "BOTTOM": 1,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 41,
+          "wins": 24,
+          "winRate": 0.5854,
+          "meanTeamGold15": -83,
+          "meanFedLead15": 1829,
+          "meanNearbyTeammates": 0.873,
+          "roleCounts": {
+            "TOP": 15,
+            "JUNGLE": 7,
+            "MIDDLE": 12,
+            "BOTTOM": 4,
+            "UTILITY": 3
+          }
+        },
+        "high": {
+          "teams": 77,
+          "wins": 38,
+          "winRate": 0.4935,
+          "meanTeamGold15": 49,
+          "meanFedLead15": 1862,
+          "meanNearbyTeammates": 1.382,
+          "roleCounts": {
+            "TOP": 11,
+            "JUNGLE": 17,
+            "MIDDLE": 13,
+            "BOTTOM": 22,
+            "UTILITY": 14
+          }
+        }
+      }
+    },
+    "teamAheadMoreThan1000": {
+      "nTeams": 255,
+      "presence": {
+        "low": {
+          "teams": 45,
+          "wins": 33,
+          "winRate": 0.7333,
+          "meanTeamGold15": 3410,
+          "meanFedLead15": 2347,
+          "meanNearbyTeammates": 0.51,
+          "roleCounts": {
+            "TOP": 22,
+            "JUNGLE": 6,
+            "MIDDLE": 13,
+            "BOTTOM": 4,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 75,
+          "wins": 56,
+          "winRate": 0.7467,
+          "meanTeamGold15": 3575,
+          "meanFedLead15": 2372,
+          "meanNearbyTeammates": 0.934,
+          "roleCounts": {
+            "TOP": 29,
+            "JUNGLE": 12,
+            "MIDDLE": 23,
+            "BOTTOM": 10,
+            "UTILITY": 1
+          }
+        },
+        "high": {
+          "teams": 135,
+          "wins": 105,
+          "winRate": 0.7778,
+          "meanTeamGold15": 3750,
+          "meanFedLead15": 2384,
+          "meanNearbyTeammates": 1.38,
+          "roleCounts": {
+            "TOP": 9,
+            "JUNGLE": 25,
+            "MIDDLE": 26,
+            "BOTTOM": 66,
+            "UTILITY": 9
+          }
+        }
+      }
+    },
+    "fedLead750to1499": {
+      "nTeams": 162,
+      "presence": {
+        "low": {
+          "teams": 29,
+          "wins": 9,
+          "winRate": 0.3103,
+          "meanTeamGold15": -847,
+          "meanFedLead15": 1160,
+          "meanNearbyTeammates": 0.412,
+          "roleCounts": {
+            "TOP": 17,
+            "JUNGLE": 2,
+            "MIDDLE": 6,
+            "BOTTOM": 4,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 47,
+          "wins": 27,
+          "winRate": 0.5745,
+          "meanTeamGold15": -385,
+          "meanFedLead15": 1153,
+          "meanNearbyTeammates": 0.942,
+          "roleCounts": {
+            "TOP": 12,
+            "JUNGLE": 11,
+            "MIDDLE": 14,
+            "BOTTOM": 7,
+            "UTILITY": 3
+          }
+        },
+        "high": {
+          "teams": 86,
+          "wins": 36,
+          "winRate": 0.4186,
+          "meanTeamGold15": -832,
+          "meanFedLead15": 1160,
+          "meanNearbyTeammates": 1.418,
+          "roleCounts": {
+            "TOP": 4,
+            "JUNGLE": 21,
+            "MIDDLE": 20,
+            "BOTTOM": 22,
+            "UTILITY": 19
+          }
+        }
+      }
+    },
+    "fedLead1500plus": {
+      "nTeams": 357,
+      "presence": {
+        "low": {
+          "teams": 66,
+          "wins": 39,
+          "winRate": 0.5909,
+          "meanTeamGold15": 1788,
+          "meanFedLead15": 2360,
+          "meanNearbyTeammates": 0.511,
+          "roleCounts": {
+            "TOP": 39,
+            "JUNGLE": 5,
+            "MIDDLE": 19,
+            "BOTTOM": 3,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 97,
+          "wins": 64,
+          "winRate": 0.6598,
+          "meanTeamGold15": 2067,
+          "meanFedLead15": 2504,
+          "meanNearbyTeammates": 0.908,
+          "roleCounts": {
+            "TOP": 42,
+            "JUNGLE": 14,
+            "MIDDLE": 30,
+            "BOTTOM": 9,
+            "UTILITY": 2
+          }
+        },
+        "high": {
+          "teams": 194,
+          "wins": 129,
+          "winRate": 0.6649,
+          "meanTeamGold15": 2079,
+          "meanFedLead15": 2376,
+          "meanNearbyTeammates": 1.392,
+          "roleCounts": {
+            "TOP": 21,
+            "JUNGLE": 39,
+            "MIDDLE": 36,
+            "BOTTOM": 86,
+            "UTILITY": 12
+          }
+        }
+      }
+    },
+    "fedIsTeamRichest": {
+      "nTeams": 368,
+      "presence": {
+        "low": {
+          "teams": 63,
+          "wins": 28,
+          "winRate": 0.4444,
+          "meanTeamGold15": 764,
+          "meanFedLead15": 2042,
+          "meanNearbyTeammates": 0.455,
+          "roleCounts": {
+            "TOP": 37,
+            "JUNGLE": 6,
+            "MIDDLE": 14,
+            "BOTTOM": 6,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 102,
+          "wins": 66,
+          "winRate": 0.6471,
+          "meanTeamGold15": 1283,
+          "meanFedLead15": 2289,
+          "meanNearbyTeammates": 0.925,
+          "roleCounts": {
+            "TOP": 39,
+            "JUNGLE": 20,
+            "MIDDLE": 28,
+            "BOTTOM": 13,
+            "UTILITY": 2
+          }
+        },
+        "high": {
+          "teams": 203,
+          "wins": 129,
+          "winRate": 0.6355,
+          "meanTeamGold15": 1153,
+          "meanFedLead15": 2173,
+          "meanNearbyTeammates": 1.421,
+          "roleCounts": {
+            "TOP": 20,
+            "JUNGLE": 51,
+            "MIDDLE": 35,
+            "BOTTOM": 92,
+            "UTILITY": 5
+          }
+        }
+      }
+    },
+    "fedIsNotTeamRichest": {
+      "nTeams": 151,
+      "presence": {
+        "low": {
+          "teams": 32,
+          "wins": 20,
+          "winRate": 0.625,
+          "meanTeamGold15": 1418,
+          "meanFedLead15": 1897,
+          "meanNearbyTeammates": 0.53,
+          "roleCounts": {
+            "TOP": 19,
+            "JUNGLE": 1,
+            "MIDDLE": 11,
+            "BOTTOM": 1,
+            "UTILITY": 0
+          }
+        },
+        "medium": {
+          "teams": 42,
+          "wins": 25,
+          "winRate": 0.5952,
+          "meanTeamGold15": 1226,
+          "meanFedLead15": 1515,
+          "meanNearbyTeammates": 0.905,
+          "roleCounts": {
+            "TOP": 15,
+            "JUNGLE": 5,
+            "MIDDLE": 16,
+            "BOTTOM": 3,
+            "UTILITY": 3
+          }
+        },
+        "high": {
+          "teams": 77,
+          "wins": 36,
+          "winRate": 0.4675,
+          "meanTeamGold15": 1271,
+          "meanFedLead15": 1552,
+          "meanNearbyTeammates": 1.346,
+          "roleCounts": {
+            "TOP": 5,
+            "JUNGLE": 9,
+            "MIDDLE": 21,
+            "BOTTOM": 16,
+            "UTILITY": 26
+          }
+        }
+      }
+    }
+  },
+  "sensitivity": {
+    "15-20_radius1500": {
+      "fedTeamObservations": 427,
+      "bothFedWithinSameMatch": 123,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 196,
+          "winRate": 0.5816
+        },
+        {
+          "category": "medium",
+          "n": 95,
+          "winRate": 0.6737
+        },
+        {
+          "category": "high",
+          "n": 136,
+          "winRate": 0.5882
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 57,
+        "loserMoreAccompanied": 53,
+        "equalPresence": 13,
+        "winnerShareAmongNonTies": 0.5182,
+        "twoSidedExactSignP": 0.775,
+        "meanWinnerMinusLoserPresence": 0.0289,
+        "pairedBootstrap95pctCI": [
+          -0.0531,
+          0.105
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 41,
+        "loserMoreAccompanied": 40,
+        "equalPresence": 42,
+        "winnerShareAmongNonTies": 0.5062,
+        "twoSidedExactSignP": 1.0,
+        "meanWinnerMinusLoserPresence": -0.0196,
+        "pairedBootstrap95pctCI": [
+          -0.069,
+          0.0278
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 55,
+        "loserMoreAccompanied": 55,
+        "equalPresence": 13,
+        "winnerShareAmongNonTies": 0.5,
+        "twoSidedExactSignP": 1.0,
+        "meanWinnerMinusLoserPresence": 0.0106,
+        "pairedBootstrap95pctCI": [
+          -0.1108,
+          0.1427
+        ]
+      }
+    },
+    "15-20_radius2500": {
+      "fedTeamObservations": 427,
+      "bothFedWithinSameMatch": 123,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 126,
+          "winRate": 0.5159
+        },
+        {
+          "category": "medium",
+          "n": 87,
+          "winRate": 0.6667
+        },
+        {
+          "category": "high",
+          "n": 214,
+          "winRate": 0.6308
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 61,
+        "loserMoreAccompanied": 47,
+        "equalPresence": 15,
+        "winnerShareAmongNonTies": 0.5648,
+        "twoSidedExactSignP": 0.21077,
+        "meanWinnerMinusLoserPresence": 0.0772,
+        "pairedBootstrap95pctCI": [
+          -0.0057,
+          0.156
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 45,
+        "loserMoreAccompanied": 57,
+        "equalPresence": 21,
+        "winnerShareAmongNonTies": 0.4412,
+        "twoSidedExactSignP": 0.27601,
+        "meanWinnerMinusLoserPresence": -0.0291,
+        "pairedBootstrap95pctCI": [
+          -0.0953,
+          0.032
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 56,
+        "loserMoreAccompanied": 53,
+        "equalPresence": 14,
+        "winnerShareAmongNonTies": 0.5138,
+        "twoSidedExactSignP": 0.84819,
+        "meanWinnerMinusLoserPresence": 0.0508,
+        "pairedBootstrap95pctCI": [
+          -0.1011,
+          0.208
+        ]
+      }
+    },
+    "15-20_radius4000": {
+      "fedTeamObservations": 427,
+      "bothFedWithinSameMatch": 123,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 69,
+          "winRate": 0.4493
+        },
+        {
+          "category": "medium",
+          "n": 47,
+          "winRate": 0.7447
+        },
+        {
+          "category": "high",
+          "n": 311,
+          "winRate": 0.6174
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 55,
+        "loserMoreAccompanied": 50,
+        "equalPresence": 18,
+        "winnerShareAmongNonTies": 0.5238,
+        "twoSidedExactSignP": 0.69647,
+        "meanWinnerMinusLoserPresence": 0.0285,
+        "pairedBootstrap95pctCI": [
+          -0.0472,
+          0.1019
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 56,
+        "loserMoreAccompanied": 50,
+        "equalPresence": 17,
+        "winnerShareAmongNonTies": 0.5283,
+        "twoSidedExactSignP": 0.62743,
+        "meanWinnerMinusLoserPresence": 0.0367,
+        "pairedBootstrap95pctCI": [
+          -0.0336,
+          0.103
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 123,
+        "winnerMoreAccompanied": 57,
+        "loserMoreAccompanied": 56,
+        "equalPresence": 10,
+        "winnerShareAmongNonTies": 0.5044,
+        "twoSidedExactSignP": 1.0,
+        "meanWinnerMinusLoserPresence": 0.0981,
+        "pairedBootstrap95pctCI": [
+          -0.0608,
+          0.2619
+        ]
+      }
+    },
+    "20-25_radius1500": {
+      "fedTeamObservations": 369,
+      "bothFedWithinSameMatch": 96,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 116,
+          "winRate": 0.5862
+        },
+        {
+          "category": "medium",
+          "n": 64,
+          "winRate": 0.7812
+        },
+        {
+          "category": "high",
+          "n": 189,
+          "winRate": 0.5979
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 38,
+        "loserMoreAccompanied": 51,
+        "equalPresence": 7,
+        "winnerShareAmongNonTies": 0.427,
+        "twoSidedExactSignP": 0.20312,
+        "meanWinnerMinusLoserPresence": -0.0231,
+        "pairedBootstrap95pctCI": [
+          -0.1069,
+          0.058
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 37,
+        "loserMoreAccompanied": 38,
+        "equalPresence": 21,
+        "winnerShareAmongNonTies": 0.4933,
+        "twoSidedExactSignP": 1.0,
+        "meanWinnerMinusLoserPresence": -0.0141,
+        "pairedBootstrap95pctCI": [
+          -0.0753,
+          0.047
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 42,
+        "loserMoreAccompanied": 50,
+        "equalPresence": 4,
+        "winnerShareAmongNonTies": 0.4565,
+        "twoSidedExactSignP": 0.46571,
+        "meanWinnerMinusLoserPresence": -0.0873,
+        "pairedBootstrap95pctCI": [
+          -0.2531,
+          0.0778
+        ]
+      }
+    },
+    "20-25_radius2500": {
+      "fedTeamObservations": 369,
+      "bothFedWithinSameMatch": 96,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 63,
+          "winRate": 0.5238
+        },
+        {
+          "category": "medium",
+          "n": 48,
+          "winRate": 0.7292
+        },
+        {
+          "category": "high",
+          "n": 258,
+          "winRate": 0.6318
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 46,
+        "loserMoreAccompanied": 39,
+        "equalPresence": 11,
+        "winnerShareAmongNonTies": 0.5412,
+        "twoSidedExactSignP": 0.51543,
+        "meanWinnerMinusLoserPresence": 0.0342,
+        "pairedBootstrap95pctCI": [
+          -0.0429,
+          0.1132
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 44,
+        "loserMoreAccompanied": 40,
+        "equalPresence": 12,
+        "winnerShareAmongNonTies": 0.5238,
+        "twoSidedExactSignP": 0.74364,
+        "meanWinnerMinusLoserPresence": -0.0234,
+        "pairedBootstrap95pctCI": [
+          -0.101,
+          0.0521
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 46,
+        "loserMoreAccompanied": 42,
+        "equalPresence": 8,
+        "winnerShareAmongNonTies": 0.5227,
+        "twoSidedExactSignP": 0.74933,
+        "meanWinnerMinusLoserPresence": -0.0712,
+        "pairedBootstrap95pctCI": [
+          -0.2578,
+          0.1193
+        ]
+      }
+    },
+    "20-25_radius4000": {
+      "fedTeamObservations": 369,
+      "bothFedWithinSameMatch": 96,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 32,
+          "winRate": 0.5312
+        },
+        {
+          "category": "medium",
+          "n": 22,
+          "winRate": 0.6364
+        },
+        {
+          "category": "high",
+          "n": 315,
+          "winRate": 0.6349
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 32,
+        "loserMoreAccompanied": 33,
+        "equalPresence": 31,
+        "winnerShareAmongNonTies": 0.4923,
+        "twoSidedExactSignP": 1.0,
+        "meanWinnerMinusLoserPresence": 0.0064,
+        "pairedBootstrap95pctCI": [
+          -0.0622,
+          0.0707
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 42,
+        "loserMoreAccompanied": 43,
+        "equalPresence": 11,
+        "winnerShareAmongNonTies": 0.4941,
+        "twoSidedExactSignP": 1.0,
+        "meanWinnerMinusLoserPresence": -0.0297,
+        "pairedBootstrap95pctCI": [
+          -0.1073,
+          0.0438
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 96,
+        "winnerMoreAccompanied": 38,
+        "loserMoreAccompanied": 51,
+        "equalPresence": 7,
+        "winnerShareAmongNonTies": 0.427,
+        "twoSidedExactSignP": 0.20312,
+        "meanWinnerMinusLoserPresence": -0.1021,
+        "pairedBootstrap95pctCI": [
+          -0.2944,
+          0.0807
+        ]
+      }
+    },
+    "15-25_radius1500": {
+      "fedTeamObservations": 511,
+      "bothFedWithinSameMatch": 180,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 188,
+          "winRate": 0.5638
+        },
+        {
+          "category": "medium",
+          "n": 157,
+          "winRate": 0.6306
+        },
+        {
+          "category": "high",
+          "n": 166,
+          "winRate": 0.5783
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 93,
+        "loserMoreAccompanied": 84,
+        "equalPresence": 3,
+        "winnerShareAmongNonTies": 0.5254,
+        "twoSidedExactSignP": 0.54775,
+        "meanWinnerMinusLoserPresence": 0.008,
+        "pairedBootstrap95pctCI": [
+          -0.0489,
+          0.0606
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 89,
+        "loserMoreAccompanied": 80,
+        "equalPresence": 11,
+        "winnerShareAmongNonTies": 0.5266,
+        "twoSidedExactSignP": 0.53843,
+        "meanWinnerMinusLoserPresence": -0.0129,
+        "pairedBootstrap95pctCI": [
+          -0.0482,
+          0.023
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 93,
+        "loserMoreAccompanied": 82,
+        "equalPresence": 5,
+        "winnerShareAmongNonTies": 0.5314,
+        "twoSidedExactSignP": 0.44979,
+        "meanWinnerMinusLoserPresence": -0.0247,
+        "pairedBootstrap95pctCI": [
+          -0.1181,
+          0.0731
+        ]
+      }
+    },
+    "15-25_radius2500": {
+      "fedTeamObservations": 511,
+      "bothFedWithinSameMatch": 180,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 90,
+          "winRate": 0.5222
+        },
+        {
+          "category": "medium",
+          "n": 133,
+          "winRate": 0.6015
+        },
+        {
+          "category": "high",
+          "n": 288,
+          "winRate": 0.6042
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 105,
+        "loserMoreAccompanied": 72,
+        "equalPresence": 3,
+        "winnerShareAmongNonTies": 0.5932,
+        "twoSidedExactSignP": 0.01592,
+        "meanWinnerMinusLoserPresence": 0.0421,
+        "pairedBootstrap95pctCI": [
+          -0.0099,
+          0.094
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 82,
+        "loserMoreAccompanied": 91,
+        "equalPresence": 7,
+        "winnerShareAmongNonTies": 0.474,
+        "twoSidedExactSignP": 0.54316,
+        "meanWinnerMinusLoserPresence": -0.0139,
+        "pairedBootstrap95pctCI": [
+          -0.0546,
+          0.0292
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 89,
+        "loserMoreAccompanied": 86,
+        "equalPresence": 5,
+        "winnerShareAmongNonTies": 0.5086,
+        "twoSidedExactSignP": 0.87989,
+        "meanWinnerMinusLoserPresence": -0.0113,
+        "pairedBootstrap95pctCI": [
+          -0.1223,
+          0.0947
+        ]
+      }
+    },
+    "15-25_radius4000": {
+      "fedTeamObservations": 511,
+      "bothFedWithinSameMatch": 180,
+      "proximityAndWins": [
+        {
+          "category": "low",
+          "n": 40,
+          "winRate": 0.475
+        },
+        {
+          "category": "medium",
+          "n": 64,
+          "winRate": 0.5156
+        },
+        {
+          "category": "high",
+          "n": 407,
+          "winRate": 0.6118
+        }
+      ],
+      "matchedPair": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 79,
+        "loserMoreAccompanied": 84,
+        "equalPresence": 17,
+        "winnerShareAmongNonTies": 0.4847,
+        "twoSidedExactSignP": 0.75416,
+        "meanWinnerMinusLoserPresence": 0.0092,
+        "pairedBootstrap95pctCI": [
+          -0.043,
+          0.0582
+        ]
+      },
+      "twoOrMoreAlliesMatched": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 81,
+        "loserMoreAccompanied": 92,
+        "equalPresence": 7,
+        "winnerShareAmongNonTies": 0.4682,
+        "twoSidedExactSignP": 0.44718,
+        "meanWinnerMinusLoserPresence": -0.0036,
+        "pairedBootstrap95pctCI": [
+          -0.0481,
+          0.0385
+        ]
+      },
+      "meanAlliesMatched": {
+        "matchedGames": 180,
+        "winnerMoreAccompanied": 86,
+        "loserMoreAccompanied": 91,
+        "equalPresence": 3,
+        "winnerShareAmongNonTies": 0.4859,
+        "twoSidedExactSignP": 0.76377,
+        "meanWinnerMinusLoserPresence": -0.0266,
+        "pairedBootstrap95pctCI": [
+          -0.1392,
+          0.0869
+        ]
+      }
+    }
+  },
+  "limitations": [
+    "Observational association, cannot show that proximity causes wins",
+    "The strongest-by-gold-difference player is not always strongest team win condition",
+    "TOP and ADC naturally have different clustering behaviour; interpret per role",
+    "Position snapshots are ~1 minute apart; a gank/fight may be missed",
+    "We select the fed player at 15 min, then measure later to reduce reverse timing",
+    "Gold lead at 15 may already reflect team quality, and later grouping can follow map control",
+    "Repeated players across games can produce nonindependent observations",
+    "Riot Bronze III seed does not mean all ten participants are individually Bronze"
+  ]
+}
