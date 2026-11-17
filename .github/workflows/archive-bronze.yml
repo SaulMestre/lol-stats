@@ -28,6 +28,9 @@ jobs:
           COHORT_EXPORT_URL: https://lol-stats-pre.onrender.com/bronze/export
         run: |
           python3 scripts/sync_bronze.py
+      - name: Analyze archived ADC support proximity
+        run: |
+          python3 scripts/analyze_adc.py
       - name: Commit only changed data
         run: |
           git config user.name 'github-actions[bot]'
