@@ -130,6 +130,16 @@ def main() -> None:
         ],
     }
     atomic_json(DEST / "manifest.json", manifest)
+    # Build a reproducible aggregate that can be read without downloading every shard.
+    import sys
+    sys.path.insert(0,str(ROOT))
+    from bronze_cohort import result
+    all_rows=[row for bucket in grouped.values() for row in bucket.values()]
+    findings=result(all_rows)
+    atomic_json(DEST / "summary.json", {
+        "schemaVersion":1,"queueId":420,
+        "manifest":manifest,"findings":findings
+    })
     status = payload.get("status") or {}
     print(json.dumps({
         "rows_this_snapshot": len(received),
