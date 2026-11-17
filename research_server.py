@@ -210,7 +210,10 @@ def collect():
             except Exception as exc:
                 with LOCK:STATE["errors"].append({"matchIndex":i,"error":str(exc)[:150]})
             with LOCK: STATE["done"]=i
-            if i%5==0: persist()
+            if i%5==0:
+                persist()
+                with LOCK:
+                    print("Riot collection progress: "+json.dumps({"done":STATE["done"],"stored":len(REPORT["matches"]),"errors":len(STATE["errors"]),"aggregate":REPORT["aggregate"].get("all",{})}),flush=True)
         with LOCK:STATE.update(phase="complete",completed=int(time.time()))
     except Exception as exc:
         with LOCK:
