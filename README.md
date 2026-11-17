@@ -45,3 +45,23 @@ The Render configuration currently runs `python riot_probe.py`, which delegates 
 3. Join champion pairs Caitlyn–Lux and Miss Fortune–Zyra.
 4. Compare winning/losing teams with matching patch and rank criteria; avoid conditioning only on winners.
 5. Add persistent storage before scaling to 500+ matches, rather than relying on Render's ephemeral filesystem.
+
+## Bronze EUW cohort experiment
+
+The separate `bronze_cohort.py` module samples **unique** recent Ranked Solo/Duo (queue 420) matches discovered from players currently listed in Bronze III, with Bronze II/IV as fallbacks. It does **not** independently verify every other lobby participant's rank at match time; interpret as *Bronze-III-seeded matches*, not an exact all-Bronze population.
+
+In each match, the collector compares both teams' ADCs and their allies using official MATCH-V5 minute frames:
+- Midgame **minute 15–25**, team winning/losing outcomes.
+- Ally near = Euclidean distance at most 2,500 map units. Frames in fountain or shortly after a death are excluded.
+- ADC proximity to **support** separately from ADC proximity to the **other three teammates**.
+- The most fed teammate is selected **at minute 15** as highest positive gold lead over the opposing player in the same role, with a minimum +750 gold lead for fed-player subgroup analysis.
+- Breakdowns by team gold advantage at minute 15 to identify confounding.
+- Direct within-match comparison of the winning ADC versus the losing ADC.
+
+Live endpoints:
+- `/bronze/status`: source collection progress.
+- `/bronze/report`: aggregate pilot/cohort results and limitations (no secrets or player identities).
+
+Controls: `RESEARCH_MODE=bronze`, `BRONZE_MATCH_COUNT` (sample size), `BRONZE_SEED_COUNT` (number of potential ranked seeds). Logs every ten validated matches.
+
+**Observational study:** statistics do not prove that proximity causes winning. Winners may group because they already have map control. The unit of analysis for significance is the match, not each minute frame or each team independently. The timeline is only an approximately minute-spaced series. All write outputs use Render's ephemeral `/tmp` storage.
