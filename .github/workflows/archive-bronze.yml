@@ -40,4 +40,4 @@ jobs:
           git commit -m "data: archive Bronze SoloQ matches [skip ci]"
           git push
 
-# Snapshot check and five-minute heartbeat (best effort)
+# Manual verification of full 500-match archive after completed Riot collection
