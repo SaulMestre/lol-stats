@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "method": "observational paired-match comparison, Bronze-III seeded EUW Solo/Duo",
+  "definition": {
+    "queueId": 420,
+    "adc": "BOTTOM role (may include APC champions)",
+    "mainWindow": "minutes 15-25",
+    "distance": "Euclidean map coordinates <=2500",
+    "highPresence": ">=60% of eligible midgame frames",
+    "lowPresence": "<40% of eligible midgame frames",
+    "baseline": "Original collection filters ADC fountain and 45 seconds after ADC death, but not support deaths/fountain",
+    "strict": "Sensitivity checks exclude both ADC and support when at fountain or <=70 seconds after death",
+    "confounders": "Total team gold difference at minute 15, compared within the same match; not proof of causation"
+  },
+  "coverage": {
+    "uniqueMatchesFound": 335,
+    "pairedMatches": 335,
+    "teamRows": 670,
+    "shards": 32,
+    "matchesMissingPairedTeams": 0,
+    "dataQuality": "Seeded through currently Bronze III summoners; not all 10 players independently ranked"
+  },
+  "unadjusted": {
+    "supportDistanceBands": {
+      "low": {
+        "nTeams": 153,
+        "wins": 75,
+        "winRate": 0.4902,
+        "meanTeamGoldLead15": -724
+      },
+      "medium": {
+        "nTeams": 207,
+        "wins": 108,
+        "winRate": 0.5217,
+        "meanTeamGoldLead15": 321
+      },
+      "high": {
+        "nTeams": 310,
+        "wins": 152,
+        "winRate": 0.4903,
+        "meanTeamGoldLead15": 143
+      }
+    },
+    "highVsLow": {
+      "highMinusLowWinRate": 0.0001,
+      "bootstrap95pctCI": [
+        -0.0942,
+        0.0954
+      ]
+    },
+    "winnerVsLoserPaired": {
+      "matches": 335,
+      "winnerMore": 160,
+      "loserMore": 153,
+      "ties": 22,
+      "winnerMoreNonTieFraction": 0.5112,
+      "pairedDifferenceWinnerMinusLoser": 0.0058,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0279,
+        0.0409
+      ],
+      "twoSidedExactSignP": 0.73456
+    },
+    "otherAlliesPaired": {
+      "matches": 335,
+      "winnerMore": 149,
+      "loserMore": 164,
+      "ties": 22,
+      "winnerMoreNonTieFraction": 0.476,
+      "pairedDifferenceWinnerMinusLoser": -0.014,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0415,
+        0.0142
+      ],
+      "twoSidedExactSignP": 0.4288
+    },
+    "anyAllyPaired": {
+      "matches": 335,
+      "winnerMore": 156,
+      "loserMore": 160,
+      "ties": 19,
+      "winnerMoreNonTieFraction": 0.4937,
+      "pairedDifferenceWinnerMinusLoser": -0.013,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0419,
+        0.0167
+      ],
+      "twoSidedExactSignP": 0.86602
+    }
+  },
+  "matchedGoldStrata": {
+    "absoluteTeamGoldLeadAt15<=500": {
+      "matches": 42,
+      "winnerMore": 20,
+      "loserMore": 18,
+      "ties": 4,
+      "winnerMoreNonTieFraction": 0.5263,
+      "pairedDifferenceWinnerMinusLoser": -0.004,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0909,
+        0.0859
+      ],
+      "twoSidedExactSignP": 0.87141
+    },
+    "absoluteTeamGoldLeadAt15<=1000": {
+      "matches": 79,
+      "winnerMore": 34,
+      "loserMore": 39,
+      "ties": 6,
+      "winnerMoreNonTieFraction": 0.4658,
+      "pairedDifferenceWinnerMinusLoser": -0.0371,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0977,
+        0.0237
+      ],
+      "twoSidedExactSignP": 0.63997
+    },
+    "absoluteTeamGoldLeadAt15<=2000": {
+      "matches": 146,
+      "winnerMore": 63,
+      "loserMore": 74,
+      "ties": 9,
+      "winnerMoreNonTieFraction": 0.4599,
+      "pairedDifferenceWinnerMinusLoser": -0.0346,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0841,
+        0.0103
+      ],
+      "twoSidedExactSignP": 0.39299
+    },
+    "absoluteTeamGoldLeadAt15<=3000": {
+      "matches": 199,
+      "winnerMore": 91,
+      "loserMore": 94,
+      "ties": 14,
+      "winnerMoreNonTieFraction": 0.4919,
+      "pairedDifferenceWinnerMinusLoser": -0.0095,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0529,
+        0.0323
+      ],
+      "twoSidedExactSignP": 0.88315
+    }
+  },
+  "adjustedDirectionalLogistic": {
+    "nMatches": 335,
+    "supportOnly": {
+      "supportOnly": {
+        "beta": 0.01206,
+        "se": 0.03528,
+        "oddsRatio": 1.0121,
+        "OR95pctCI": [
+          0.9445,
+          1.0846
+        ],
+        "waldP": 0.73244
+      }
+    },
+    "goldOnly": {
+      "goldOnly": {
+        "beta": 0.37605,
+        "se": 0.04649,
+        "oddsRatio": 1.4565,
+        "OR95pctCI": [
+          1.3297,
+          1.5955
+        ],
+        "waldP": 0.0
+      }
+    },
+    "support+gold": {
+      "support": {
+        "beta": -0.03516,
+        "se": 0.04093,
+        "oddsRatio": 0.9654,
+        "OR95pctCI": [
+          0.891,
+          1.0461
+        ],
+        "waldP": 0.39032
+      },
+      "gold": {
+        "beta": 0.38094,
+        "se": 0.0471,
+        "oddsRatio": 1.4637,
+        "OR95pctCI": [
+          1.3346,
+          1.6052
+        ],
+        "waldP": 0.0
+      }
+    },
+    "support+gold+otherAllies": {
+      "support": {
+        "beta": -0.02249,
+        "se": 0.04214,
+        "oddsRatio": 0.9778,
+        "OR95pctCI": [
+          0.9002,
+          1.0619
+        ],
+        "waldP": 0.59351
+      },
+      "gold": {
+        "beta": 0.38273,
+        "se": 0.04724,
+        "oddsRatio": 1.4663,
+        "OR95pctCI": [
+          1.3366,
+          1.6085
+        ],
+        "waldP": 0.0
+      },
+      "otherAllies": {
+        "beta": -0.06551,
+        "se": 0.0516,
+        "oddsRatio": 0.9366,
+        "OR95pctCI": [
+          0.8465,
+          1.0363
+        ],
+        "waldP": 0.2042
+      }
+    }
+  },
+  "sensitivityAnalysis": {
+    "15-25_r1500": {
+      "matches": 238,
+      "winnerMore": 106,
+      "loserMore": 116,
+      "ties": 16,
+      "winnerMoreNonTieFraction": 0.4775,
+      "pairedDifferenceWinnerMinusLoser": -0.0038,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0468,
+        0.04
+      ],
+      "twoSidedExactSignP": 0.54591,
+      "meanEligibleFramesPerTeam": 5.23
+    },
+    "15-25_r2000": {
+      "matches": 238,
+      "winnerMore": 113,
+      "loserMore": 112,
+      "ties": 13,
+      "winnerMoreNonTieFraction": 0.5022,
+      "pairedDifferenceWinnerMinusLoser": 0.0039,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0399,
+        0.0479
+      ],
+      "twoSidedExactSignP": 1.0,
+      "meanEligibleFramesPerTeam": 5.23
+    },
+    "15-25_r2500": {
+      "matches": 238,
+      "winnerMore": 102,
+      "loserMore": 117,
+      "ties": 19,
+      "winnerMoreNonTieFraction": 0.4658,
+      "pairedDifferenceWinnerMinusLoser": -0.0024,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0475,
+        0.0447
+      ],
+      "twoSidedExactSignP": 0.34415,
+      "meanEligibleFramesPerTeam": 5.23
+    },
+    "15-25_r3000": {
+      "matches": 238,
+      "winnerMore": 98,
+      "loserMore": 116,
+      "ties": 24,
+      "winnerMoreNonTieFraction": 0.4579,
+      "pairedDifferenceWinnerMinusLoser": -0.0054,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0455,
+        0.0398
+      ],
+      "twoSidedExactSignP": 0.24513,
+      "meanEligibleFramesPerTeam": 5.23
+    },
+    "15-25_r4000": {
+      "matches": 238,
+      "winnerMore": 95,
+      "loserMore": 105,
+      "ties": 38,
+      "winnerMoreNonTieFraction": 0.475,
+      "pairedDifferenceWinnerMinusLoser": 0.009,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0296,
+        0.0474
+      ],
+      "twoSidedExactSignP": 0.52462,
+      "meanEligibleFramesPerTeam": 5.23
+    },
+    "15-20_r1500": {
+      "matches": 80,
+      "winnerMore": 32,
+      "loserMore": 34,
+      "ties": 14,
+      "winnerMoreNonTieFraction": 0.4848,
+      "pairedDifferenceWinnerMinusLoser": 0.0442,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0504,
+        0.1344
+      ],
+      "twoSidedExactSignP": 0.90216,
+      "meanEligibleFramesPerTeam": 3.64
+    },
+    "15-20_r2000": {
+      "matches": 80,
+      "winnerMore": 32,
+      "loserMore": 32,
+      "ties": 16,
+      "winnerMoreNonTieFraction": 0.5,
+      "pairedDifferenceWinnerMinusLoser": 0.0544,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0375,
+        0.1487
+      ],
+      "twoSidedExactSignP": 1.0,
+      "meanEligibleFramesPerTeam": 3.64
+    },
+    "15-20_r2500": {
+      "matches": 80,
+      "winnerMore": 32,
+      "loserMore": 31,
+      "ties": 17,
+      "winnerMoreNonTieFraction": 0.5079,
+      "pairedDifferenceWinnerMinusLoser": 0.0375,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0477,
+        0.1258
+      ],
+      "twoSidedExactSignP": 1.0,
+      "meanEligibleFramesPerTeam": 3.64
+    },
+    "15-20_r3000": {
+      "matches": 80,
+      "winnerMore": 31,
+      "loserMore": 33,
+      "ties": 16,
+      "winnerMoreNonTieFraction": 0.4844,
+      "pairedDifferenceWinnerMinusLoser": 0.0179,
+      "pairedDifference95pctBootstrapCI": [
+        -0.066,
+        0.1065
+      ],
+      "twoSidedExactSignP": 0.90065,
+      "meanEligibleFramesPerTeam": 3.64
+    },
+    "15-20_r4000": {
+      "matches": 80,
+      "winnerMore": 32,
+      "loserMore": 29,
+      "ties": 19,
+      "winnerMoreNonTieFraction": 0.5246,
+      "pairedDifferenceWinnerMinusLoser": 0.0265,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0525,
+        0.1069
+      ],
+      "twoSidedExactSignP": 0.79815,
+      "meanEligibleFramesPerTeam": 3.64
+    },
+    "20-25_r1500": {
+      "matches": 60,
+      "winnerMore": 30,
+      "loserMore": 21,
+      "ties": 9,
+      "winnerMoreNonTieFraction": 0.5882,
+      "pairedDifferenceWinnerMinusLoser": 0.0656,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0383,
+        0.1756
+      ],
+      "twoSidedExactSignP": 0.26244,
+      "meanEligibleFramesPerTeam": 3.38
+    },
+    "20-25_r2000": {
+      "matches": 60,
+      "winnerMore": 33,
+      "loserMore": 21,
+      "ties": 6,
+      "winnerMoreNonTieFraction": 0.6111,
+      "pairedDifferenceWinnerMinusLoser": 0.0953,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0142,
+        0.2083
+      ],
+      "twoSidedExactSignP": 0.13367,
+      "meanEligibleFramesPerTeam": 3.38
+    },
+    "20-25_r2500": {
+      "matches": 60,
+      "winnerMore": 28,
+      "loserMore": 21,
+      "ties": 11,
+      "winnerMoreNonTieFraction": 0.5714,
+      "pairedDifferenceWinnerMinusLoser": 0.0772,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0506,
+        0.1936
+      ],
+      "twoSidedExactSignP": 0.3916,
+      "meanEligibleFramesPerTeam": 3.38
+    },
+    "20-25_r3000": {
+      "matches": 60,
+      "winnerMore": 25,
+      "loserMore": 23,
+      "ties": 12,
+      "winnerMoreNonTieFraction": 0.5208,
+      "pairedDifferenceWinnerMinusLoser": 0.0322,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0833,
+        0.1361
+      ],
+      "twoSidedExactSignP": 0.88543,
+      "meanEligibleFramesPerTeam": 3.38
+    },
+    "20-25_r4000": {
+      "matches": 60,
+      "winnerMore": 22,
+      "loserMore": 21,
+      "ties": 17,
+      "winnerMoreNonTieFraction": 0.5116,
+      "pairedDifferenceWinnerMinusLoser": 0.0533,
+      "pairedDifference95pctBootstrapCI": [
+        -0.0489,
+        0.1544
+      ],
+      "twoSidedExactSignP": 1.0,
+      "meanEligibleFramesPerTeam": 3.38
+    }
+  },
+  "limitations": [
+    "Associations are observational; teams may group because they are already winning",
+    "Riot supplies roughly one player position per minute; not continuous movement",
+    "Same person may appear in multiple matches; uncertainty here treats matches as independent",
+    "Win/loss teams in the same match are paired, not two independent samples",
+    "Champion composition, death/recall, objectives and vision may confound results",
+    "Bronze sample is seeded by current rank; other participants are not validated Bronze"
+  ]
+}
