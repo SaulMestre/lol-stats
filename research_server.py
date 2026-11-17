@@ -233,6 +233,12 @@ class Handler(BaseHTTPRequestHandler):
         path=self.path.split("?")[0]
         if path in ("/","/health"):
             payload={"ok":True,"project":"LoL SoloQ Research","source":"Riot MATCH-V5"}
+        elif path=="/bronze/status":
+            from bronze_cohort import public_status
+            payload=public_status()
+        elif path=="/bronze/report":
+            from bronze_cohort import public_report
+            payload=public_report()
         elif path=="/status":
             with LOCK:payload=dict(STATE)
         elif path=="/report":
@@ -258,5 +264,9 @@ if __name__=="__main__":
             obj=json.loads(OUT.read_text())
             REPORT.update(obj.get("report",{}))
         except (ValueError,OSError):pass
-    threading.Thread(target=collect,daemon=True,name="riot-collector").start()
+    if os.environ.get("RESEARCH_MODE","bronze")=="bronze":
+        from bronze_cohort import collect as collect_bronze
+        threading.Thread(target=collect_bronze,daemon=True,name="bronze-cohort-collector").start()
+    else:
+        threading.Thread(target=collect,daemon=True,name="riot-collector").start()
     ThreadingHTTPServer(("0.0.0.0",int(os.environ.get("PORT","10000"))),Handler).serve_forever()
