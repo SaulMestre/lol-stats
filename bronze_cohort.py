@@ -241,7 +241,45 @@ def persist():
     tmp.write_text(json.dumps(data,ensure_ascii=False))
     tmp.replace(DATA)
 
+def restore_from_github():
+    """Recover earlier published team records after a Render restart."""
+    base="https://raw.githubusercontent.com/SaulMestre/lol-stats/main/data/bronze/"
+    try:
+        req=urllib.request.Request(base+"manifest.json",
+                                   headers={"User-Agent":"lol-stats-research/0.3"})
+        with urllib.request.urlopen(req,timeout=15) as reply:
+            manifest=json.load(reply)
+        if manifest.get("queueId")!=420:
+            raise ValueError("Unexpected archive queue")
+        recovered=0
+        for i in range(32):
+            try:
+                req=urllib.request.Request(base+f"matches-{i:02d}.json",
+                                           headers={"User-Agent":"lol-stats-research/0.3"})
+                with urllib.request.urlopen(req,timeout=20) as reply:
+                    saved=json.load(reply)
+                with LOCK:
+                    existing={(r.get("matchId"),r.get("teamId")) for r in ROWS}
+                    for row in saved:
+                        key=(row.get("matchId"),row.get("teamId"))
+                        if key[0] and key[1] in (100,200) and key not in existing:
+                            ROWS.append(row)
+                            existing.add(key)
+                            recovered+=1
+                            SEEN.add(key[0])
+            except urllib.error.HTTPError as exc:
+                if exc.code!=404:raise
+        with LOCK:
+            STATUS["matches"]=len(SEEN)
+        print("GitHub archive restored",len(SEEN),"matches",recovered,"rows",flush=True)
+    except urllib.error.HTTPError as exc:
+        if exc.code!=404:print("Archive read HTTP",exc.code,flush=True)
+    except (urllib.error.URLError,ValueError,TimeoutError) as exc:
+        print("Archive recovery unavailable",type(exc).__name__,flush=True)
+
+
 def collect():
+    restore_from_github()
     if DATA.exists():
         try:
             existing=json.loads(DATA.read_text())
