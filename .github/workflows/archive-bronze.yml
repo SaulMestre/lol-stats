@@ -1,6 +1,9 @@
 name: Archive Bronze EUW match JSON
 
 on:
+  push:
+    paths:
+      - ".github/workflows/archive-bronze.yml"
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
